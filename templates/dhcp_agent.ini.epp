@@ -1,0 +1,29 @@
+[DEFAULT]
+interface_driver = linuxbridge
+resync_interval = 5
+dhcp_driver = neutron.agent.linux.dhcp.Dnsmasq
+enable_isolated_metadata = true
+force_metadata = false
+enable_metadata_network = false
+num_sync_threads = 4
+dhcp_confs = $state_path/dhcp
+#dnsmasq_config_file =
+#dnsmasq_dns_servers =
+dnsmasq_local_resolv = false
+dnsmasq_lease_max = 16777216
+dhcp_broadcast_reply = false
+dhcp_renewal_time = 0
+dhcp_rebinding_time = 0
+debug = false
+publish_errors = true
+instance_format = "[instance: %(uuid)s] "
+instance_uuid_format = "[instance: %(uuid)s] "
+rate_limit_interval = 0
+rate_limit_burst = 0
+rate_limit_except_level = CRITICAL
+fatal_deprecations = false
+[agent]
+availability_zone = nova
+report_interval = 30
+log_agent_heartbeats = false
+[ovs]

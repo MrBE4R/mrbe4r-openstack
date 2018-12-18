@@ -1,0 +1,156 @@
+[DEFAULT]
+#public_endpoint = <None>
+max_project_tree_depth = 5
+max_param_size = 64
+max_token_size = 255
+insecure_debug = false
+debug = false
+use_journal = false
+instance_format = "[instance: %(uuid)s] "
+instance_uuid_format = "[instance: %(uuid)s] "
+fatal_deprecations = false
+[application_credential]
+driver = sql
+caching = true
+cache_time = 300
+[assignment]
+driver = sql
+prohibited_implied_role = admin
+[auth]
+[cache]
+config_prefix = cache.oslo
+expiration_time = 300
+backend = dogpile.cache.null
+enabled = true
+debug_cache_backend = false
+memcache_servers = <%= $node_admin_ip %>:11211
+memcache_dead_retry = 300
+memcache_socket_timeout = 3
+memcache_pool_maxsize = 10
+memcache_pool_unused_timeout = 60
+memcache_pool_connection_get_timeout = 10
+[catalog]
+template_file = default_catalog.templates
+driver = sql
+caching = true
+cache_time = 300
+[cors]
+#allowed_origin = <None>
+#allow_credentials = true
+#expose_headers = X-Auth-Token,X-Openstack-Request-Id,X-Subject-Token
+#max_age = 3600
+#allow_methods = GET,PUT,POST,DELETE,PATCH
+#allow_headers = X-Auth-Token,X-Openstack-Request-Id,X-Subject-Token,X-Project-Id,X-Project-Name,X-Project-Domain-Id,X-Project-Domain-Name,X-Domain-Id,X-Domain-Name
+[credential]
+driver = sql
+provider = fernet
+key_repository = /etc/keystone/credential-keys/
+[database]
+backend = sqlalchemy
+connection = mysql+pymysql://keystone:<%= $db_password_keystone %>@<%= $node_admin_ip %>/<%= $dbname_keystone %>
+mysql_sql_mode = TRADITIONAL
+mysql_enable_ndb = false
+connection_recycle_time = 3600
+min_pool_size = 1
+max_pool_size = 5
+max_retries = 10
+retry_interval = 10
+max_overflow = 50
+use_db_reconnect = false
+[domain_config]
+driver = sql
+caching = true
+cache_time = 300
+[endpoint_filter]
+driver = sql
+return_all_endpoints_if_no_filter = true
+[endpoint_policy]
+driver = sql
+[eventlet_server]
+[federation]
+[fernet_tokens]
+key_repository = /etc/keystone/fernet-keys/
+max_active_keys = 3
+[healthcheck]
+[identity]
+default_domain_id = default
+domain_specific_drivers_enabled = false
+domain_configurations_from_database = false
+domain_config_dir = /etc/keystone/domains
+driver = sql
+caching = true
+cache_time = 300
+max_password_length = 4096
+[identity_mapping]
+driver = sql
+generator = sha256
+backward_compatible_ids = true
+[ldap]
+[matchmaker_redis]
+[memcache]
+dead_retry = 300
+socket_timeout = 3
+pool_maxsize = 10
+pool_unused_timeout = 60
+pool_connection_get_timeout = 10
+[oauth1]
+driver = sql
+request_token_duration = 28800
+access_token_duration = 86400
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+enforce_scope = false
+policy_file = /etc/keystone/policy.json
+policy_default_rule = default
+policy_dirs = /etc/keystone/policy.d
+[paste_deploy]
+config_file = /etc/keystone/keystone-paste.ini
+[policy]
+driver = sql
+[profiler]
+[resource]
+caching = true
+cache_time = 300
+admin_project_domain_name = default
+admin_project_name = admin
+project_name_url_safe = new
+domain_name_url_safe = new
+[revoke]
+driver = sql
+expiration_buffer = 1800
+caching = true
+cache_time = 3600
+[role]
+driver = sql
+caching = true
+cache_time = 300
+[saml]
+[security_compliance]
+lockout_failure_attempts = 5
+lockout_duration = 1800
+unique_last_password_count = 1
+minimum_password_age = 0
+change_password_upon_first_use = false
+[shadow_users]
+driver = sql
+[signing]
+[token]
+expiration = 3600
+provider = fernet
+caching = true
+cache_time = 300
+revoke_by_id = true
+allow_rescope_scoped_token = true
+infer_roles = true
+cache_on_issue = true
+[tokenless_auth]
+[trust]
+[unified_limit]
+driver = sql
+caching = true
+cache_time = 300

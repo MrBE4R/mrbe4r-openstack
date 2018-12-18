@@ -1,0 +1,30 @@
+[DEFAULT]
+debug = false
+publish_errors = false
+instance_format = "[instance: %(uuid)s] "
+instance_uuid_format = "[instance: %(uuid)s] "
+rate_limit_interval = 0
+rate_limit_burst = 0
+rate_limit_except_level = CRITICAL
+fatal_deprecations = false
+[l2pop]
+[ml2]
+type_drivers = flat,vxlan
+tenant_network_types = vxlan
+mechanism_drivers = linuxbridge,l2population
+extension_drivers = port_security
+path_mtu = 0
+#physical_network_mtus =
+external_network_type = flat
+overlay_ip_version = 4
+[ml2_type_flat]
+flat_networks = public
+[ml2_type_geneve]
+[ml2_type_gre]
+[ml2_type_vlan]
+[ml2_type_vxlan]
+vni_ranges = 1:10000
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+enable_security_group = true
+enable_ipset = true

@@ -1,0 +1,11 @@
+#[Member]
+ETCD_DATA_DIR="/var/lib/etcd/default.etcd"
+ETCD_LISTEN_PEER_URLS="http://<%= $node_admin_ip %>:2380"
+ETCD_LISTEN_CLIENT_URLS="http://<%= $node_admin_ip %>:2379"
+ETCD_NAME="<%= $node_admin_ip %>"
+#[Clustering]
+ETCD_INITIAL_ADVERTISE_PEER_URLS="http://<%= $node_admin_ip %>:2380"
+ETCD_ADVERTISE_CLIENT_URLS="http://<%= $node_admin_ip %>:2379"
+ETCD_INITIAL_CLUSTER="<%= $node_admin_ip %>=http://<%= $node_admin_ip %>:2380"
+ETCD_INITIAL_CLUSTER_TOKEN="etcd-cluster-01"
+ETCD_INITIAL_CLUSTER_STATE="new"

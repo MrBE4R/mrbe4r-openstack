@@ -1,0 +1,31 @@
+[DEFAULT]
+debug = false
+publish_errors = true
+instance_format = "[instance: %(uuid)s] "
+instance_uuid_format = "[instance: %(uuid)s] "
+rate_limit_interval = 0
+rate_limit_burst = 0
+rate_limit_except_level = CRITICAL
+fatal_deprecations = false
+[agent]
+polling_interval = 2
+#quitting_rpc_timeout = 10
+#dscp = <None>
+#dscp_inherit = false
+#extensions =
+[linux_bridge]
+physical_interface_mappings = public:<%= $provider_interface %>
+[network_log]
+rate_limit = 100
+burst_limit = 25
+[securitygroup]
+firewall_driver = neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+enable_security_group = true
+enable_ipset = true
+[vxlan]
+enable_vxlan = true
+vxlan_group = 224.0.0.1
+local_ip = <%= $provider_ip %>
+l2_population = true
+#arp_responder = false
+#multicast_ranges =

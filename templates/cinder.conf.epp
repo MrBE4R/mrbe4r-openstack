@@ -1,0 +1,189 @@
+[DEFAULT]
+osapi_max_limit = 1000
+resource_query_filters_file = /etc/cinder/resource_filters.json
+state_path = /var/lib/cinder
+my_ip=<%= $node_admin_ip %>
+glance_api_servers=http://<%= $controller_ip %>:9292
+glance_num_retries = 0
+enable_v2_api = true
+enable_v3_api = true
+api_rate_limit = true
+#osapi_volume_ext_list =
+osapi_volume_extension = cinder.api.contrib.standard_extensions
+volume_manager = cinder.volume.manager.VolumeManager
+backup_manager = cinder.backup.manager.BackupManager
+scheduler_manager = cinder.scheduler.manager.SchedulerManager
+host=$my_ip
+storage_availability_zone = nova
+allow_availability_zone_fallback = false
+volume_usage_audit_period = month
+rootwrap_config = /etc/cinder/rootwrap.conf
+monkey_patch = false
+service_down_time = 60
+volume_api_class = cinder.volume.api.API
+backup_api_class = cinder.backup.api.API
+auth_strategy = keystone
+#enabled_backends = <None>
+no_snapshot_gb_quota = false
+transfer_api_class = cinder.transfer.api.API
+consistencygroup_api_class = cinder.consistencygroup.api.API
+group_api_class = cinder.group.api.API
+compute_api_class = cinder.compute.nova.API
+cinder_internal_tenant_project_id = admin
+cinder_internal_tenant_user_id = cinder
+enable_new_services = true
+volume_name_template = volume-%s
+snapshot_name_template = snapshot-%s
+backup_name_template = backup-%s
+db_driver = cinder.db
+glance_catalog_info = image:glance:adminURL
+glance_core_properties = checksum,container_format,disk_format,image_name,image_id,min_disk,min_ram,name,size
+image_conversion_dir = $state_path/conversion
+message_ttl = 2592000
+message_reap_interval = 86400
+quota_volumes = 10
+quota_snapshots = 10
+quota_consistencygroups = 10
+quota_groups = 10
+quota_gigabytes = 1000
+quota_backups = 10
+quota_backup_gigabytes = 1000
+reservation_expire = 86400
+reservation_clean_interval = $reservation_expire
+until_refresh = 0
+max_age = 0
+quota_driver = cinder.quota.DbQuotaDriver
+use_default_quota_class = true
+per_volume_size_limit = -1
+scheduler_host_manager = cinder.scheduler.host_manager.HostManager
+scheduler_max_attempts = 3
+scheduler_default_filters = AvailabilityZoneFilter,CapacityFilter,CapabilitiesFilter
+scheduler_default_weighers = CapacityWeigher
+scheduler_weight_handler = cinder.scheduler.weights.OrderedHostWeightHandler
+scheduler_driver = cinder.scheduler.filter_scheduler.FilterScheduler
+#scheduler_json_config_location =
+capacity_weight_multiplier = 1.0
+allocated_capacity_weight_multiplier = -1.0
+volume_number_multiplier = -1.0
+report_interval = 10
+periodic_interval = 60
+periodic_fuzzy_delay = 60
+osapi_volume_listen = <%= $node_admin_ip %>
+osapi_volume_listen_port = 8776
+osapi_volume_workers = 2
+osapi_volume_use_ssl = false
+strict_ssh_host_key_policy = false
+ssh_hosts_key_file = $state_path/ssh_known_hosts
+volume_transfer_salt_length = 8
+volume_transfer_key_length = 16
+enable_force_upload = false
+snapshot_same_host = true
+cloned_volume_same_az = true
+az_cache_duration = 3600
+num_shell_tries = 3
+reserved_percentage = 0
+target_prefix = iqn.2010-10.org.openstack:
+target_ip_address = $my_ip
+#iscsi_secondary_ip_addresses =
+target_port = 3260
+num_volume_device_scan_tries = 3
+#volume_backend_name = <None>
+use_multipath_for_image_xfer = false
+enforce_multipath_for_image_xfer = false
+volume_clear = zero
+volume_clear_size = 0
+#volume_clear_ionice = <None>
+target_helper = tgtadm
+volumes_dir = $state_path/volumes
+iet_conf = /etc/iet/ietd.conf
+chiscsi_conf = /etc/chelsio-iscsi/chiscsi.conf
+iscsi_iotype = auto
+volume_dd_blocksize = 1M
+volume_copy_blkio_cgroup_name = cinder-volume-copy
+volume_copy_bps_limit = 0
+iscsi_write_cache = on
+#iscsi_target_flags =
+target_protocol = iscsi
+#max_over_subscription_ratio = 20.0
+max_over_subscription_ratio = auto
+scst_target_driver = iscsi
+use_chap_auth = false
+image_upload_use_cinder_backend = false
+image_upload_use_internal_tenant = false
+image_volume_cache_enabled = false
+report_discard_supported = false
+storage_protocol = iscsi
+backup_use_temp_snapshot = true
+enable_unsupported_driver = false
+#num_iser_scan_tries = 3
+#iser_target_prefix = iqn.2010-10.org.openstack:
+#iser_ip_address = $my_ip
+#iser_port = 3260
+#iser_helper = tgtadm
+datacore_disk_type = single
+datacore_api_timeout = 300
+datacore_disk_failed_delay = 15
+#datacore_iscsi_unallowed_targets =
+datacore_iscsi_chap_enabled = false
+migration_create_volume_timeout_secs = 300
+volume_service_inithost_offload = false
+tcp_keepalive = true
+config_file = ~/.project/project.conf,~/project.conf,/etc/project/project.conf,/etc/project.conf
+config_dir = ~/.project/project.conf.d/,~/project.conf.d/,/etc/project/project.conf.d/,/etc/project.conf.d/
+debug = false
+publish_errors = true
+instance_format = "[instance: %(uuid)s] "
+instance_uuid_format = "[instance: %(uuid)s] "
+rate_limit_interval = 0
+rate_limit_burst = 0
+rate_limit_except_level = CRITICAL
+fatal_deprecations = false
+transport_url = rabbit://openstack:<%= $rabbit_password %>@<%= $controller_ip %>
+run_external_periodic_tasks = true
+log_options = true
+graceful_shutdown_timeout = 60
+api_paste_config = /etc/cinder/api-paste.ini
+[backend]
+[backend_defaults]
+[barbican]
+[coordination]
+backend_url = file://$state_path
+[cors]
+[database]
+connection=mysql+pymysql://cinder:<%= $db_password_cinder %>@<%= $controller_ip %>/<%= $dbname_cinder %>
+[fc-zone-manager]
+[healthcheck]
+[key_manager]
+[keystone_authtoken]
+auth_uri = http://<%= $controller_ip %>:5000/v3
+auth_url = http://<%= $controller_ip %>:5000/v3
+memcached_servers = <%= $controller_ip %>:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = cinder
+password = <%= $user_password_cinder %>
+[matchmaker_redis]
+[nova]
+[oslo_concurrency]
+disable_process_locking = false
+lock_path = /var/lib/cinder/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+enforce_scope = false
+policy_file = policy.json
+policy_default_rule = default
+policy_dirs = policy.d
+[oslo_reports]
+[oslo_versionedobjects]
+[profiler]
+[service_user]
+send_service_user_token = false
+[ssl]
+[vault]

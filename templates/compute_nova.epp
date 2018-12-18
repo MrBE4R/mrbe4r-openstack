@@ -1,0 +1,170 @@
+[DEFAULT]
+allow_resize_to_same_host=false
+vif_plugging_is_fatal=true
+preallocate_images=space
+use_cow_images=true
+force_raw_images=false
+reserved_host_memory_mb=512
+reserved_host_cpus=0
+cpu_allocation_ratio=1.5
+ram_allocation_ratio=1.5
+disk_allocation_ratio=1.0
+console_host=<%= $::hostname %>
+resume_guests_state_on_host_boot=true
+network_allocate_retries=3
+max_concurrent_live_migrations=1
+reclaim_instance_interval=0
+instance_build_timeout=60
+resize_confirm_window=300
+running_deleted_instance_action=reap
+osapi_compute_unique_server_name_scope = project
+enable_new_services=true
+instance_name_template=%(uuid)s
+my_ip=<%= $node_admin_ip %>
+host=$my_ip
+metadata_host=$my_ip
+use_neutron=true
+firewall_driver=nova.virt.firewall.NoopFirewallDriver
+enabled_apis=osapi_compute,metadata
+osapi_compute_listen=<%= $node_admin_ip %>
+osapi_compute_listen_port=8774
+osapi_compute_workers=4
+metadata_listen=<%= $node_admin_ip %>
+metadata_listen_port=8775
+metadata_workers=4
+debug=false
+publish_errors=false
+transport_url = rabbit://openstack:<%= $rabbit_password %>@<%= $controller_ip %>
+[api]
+auth_strategy=keystone
+use_forwarded_for=false
+vendordata_jsonfile_path=<None>
+fping_path=/usr/sbin/fping
+[api_database]
+connection=mysql+pymysql://nova:<%= $db_password_nova_api %>@<%= $controller_ip %>/<%= $dbname_nova_api %>
+mysql_sql_mode=TRADITIONAL
+max_pool_size=5
+max_overflow=5
+[barbican]
+[cache]
+enabled=false
+memcache_servers=<%= $controller_ip %>:11211
+[cells]
+[cinder]
+catalog_info=volumev3:cinderv3:adminURL
+os_region_name = <%= $os_region_id %>
+[compute]
+[conductor]
+workers=4
+[console]
+[consoleauth]
+[cors]
+[crypto]
+[database]
+connection=mysql+pymysql://nova:<%= $db_password_nova %>@<%= $controller_ip %>/<%= $dbname_nova %>
+mysql_sql_mode=TRADITIONAL
+[devices]
+[ephemeral_storage_encryption]
+[filter_scheduler]
+max_instances_per_host=60
+available_filters=nova.scheduler.filters.all_filters
+enabled_filters=RetryFilter,AvailabilityZoneFilter,ComputeFilter,ComputeCapabilitiesFilter,ImagePropertiesFilter,ServerGroupAntiAffinityFilter,ServerGroupAffinityFilter
+weight_classes=nova.scheduler.weights.all_weighers
+ram_weight_multiplier=1.0
+disk_weight_multiplier=1.0
+io_ops_weight_multiplier=-1.0
+pci_weight_multiplier=1.0
+soft_affinity_weight_multiplier=1.0
+soft_anti_affinity_weight_multiplier=1.0
+shuffle_best_same_weighed_hosts=true
+image_properties_default_architecture=x86_64
+[glance]
+api_servers=http://<%= $controller_ip %>:9292
+debug=false
+[guestfs]
+[healthcheck]
+[hyperv]
+[ironic]
+[key_manager]
+[keystone]
+[keystone_authtoken]
+auth_url = http://<%= $controller_ip %>:5000/v3
+memcached_servers = <%= $controller_ip %>:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = nova
+password = <%= $user_password_nova %>
+[libvirt]
+virt_type=kvm
+inject_password=true
+inject_key=true
+inject_partition=-1
+snapshot_image_format=qcow2
+cpu_mode=custom
+cpu_model=kvm64
+images_type=default
+[matchmaker_redis]
+[metrics]
+[mks]
+[neutron]
+url = http://<%= $controller_ip %>:9696
+auth_url = http://<%= $controller_ip %>:35357
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+region_name = <%= $os_region_id %>
+project_name = service
+username = neutron
+password = <%= $user_password_neutron %>
+service_metadata_proxy = true
+metadata_proxy_shared_secret = <%= $controller_ip %>
+[notifications]
+notify_on_state_change = vm_and_task_state
+[osapi_v21]
+[oslo_concurrency]
+lock_path=/var/lib/nova/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+enforce_scope = false
+policy_file = /etc/nova/policy.json
+policy_default_rule = default
+policy_dirs = /etc/nova/policy.d
+[pci]
+[placement]
+os_region_name = <%= $os_region_id %>
+project_domain_name = Default
+project_name = service
+auth_type = password
+user_domain_name = Default
+auth_url = http://<%= $controller_ip %>:5000/v3
+username = placement
+password = <%= $user_password_placement %>
+[quota]
+[rdp]
+[remote_debug]
+[scheduler]
+discover_hosts_in_cells_interval = 300
+[serial_console]
+[service_user]
+[spice]
+[upgrade_levels]
+[vault]
+[vendordata_dynamic_auth]
+[vmware]
+[vnc]
+enabled=true
+keymap=fr
+server_listen=$my_ip
+server_proxyclient_address=$my_ip
+novncproxy_base_url = https://<%= $os_public_name %>/vncws/vnc_auto.html
+[workarounds]
+[wsgi]
+[xenserver]
+[xvp]

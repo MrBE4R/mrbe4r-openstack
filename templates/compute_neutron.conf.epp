@@ -1,0 +1,168 @@
+[DEFAULT]
+state_path = /var/lib/neutron
+bind_host = 0.0.0.0
+bind_port = 9696
+auth_strategy = keystone
+core_plugin = ml2
+service_plugins = router
+base_mac = fa:16:3e:00:00:00
+allow_bulk = true
+pagination_max_limit = -1
+max_dns_nameservers = 5
+max_subnet_host_routes = 20
+ipv6_pd_enabled = false
+dhcp_lease_duration = 86400
+dns_domain = nova.loc
+external_dns_driver = <None>
+dhcp_agent_notification = true
+allow_overlapping_ips = true
+host=<%= $node_admin_ip %>
+notify_nova_on_port_status_changes = true
+notify_nova_on_port_data_changes = true
+send_events_interval = 2
+ipam_driver = internal
+vlan_transparent = false
+global_physnet_mtu = 1500
+backlog = 4096
+retry_until_window = 30
+use_ssl = false
+periodic_interval = 40
+api_workers = 4
+rpc_workers = 1
+rpc_state_report_workers = 1
+periodic_fuzzy_delay = 5
+#interface_driver = <None>
+metadata_proxy_socket = $state_path/metadata_proxy
+#metadata_proxy_user =
+#metadata_proxy_group =
+agent_down_time = 75
+dhcp_load_type = networks
+enable_new_agents = true
+max_routes = 30
+enable_snat_by_default = true
+network_scheduler_driver = neutron.scheduler.dhcp_agent_scheduler.WeightScheduler
+network_auto_schedule = true
+allow_automatic_dhcp_failover = true
+dhcp_agents_per_network = 1
+enable_services_on_agents_with_admin_state_down = false
+dvr_base_mac = fa:16:3f:00:00:00
+router_distributed = false
+enable_dvr = true
+router_scheduler_driver = neutron.scheduler.l3_agent_scheduler.LeastRoutersScheduler
+router_auto_schedule = true
+allow_automatic_l3agent_failover = false
+l3_ha = false
+#max_l3_agents_per_router = 3
+#l3_ha_net_cidr = 169.254.192.0/18
+#l3_ha_network_type =
+#l3_ha_network_physical_name =
+max_allowed_address_pair = 10
+debug = false
+publish_errors = true
+instance_format = "[instance: %(uuid)s] "
+instance_uuid_format = "[instance: %(uuid)s] "
+rate_limit_interval = 0
+rate_limit_burst = 0
+rate_limit_except_level = CRITICAL
+fatal_deprecations = false
+rpc_conn_pool_size = 30
+conn_pool_min_size = 2
+conn_pool_ttl = 1200
+transport_url = rabbit://openstack:<%= $rabbit_password %>@<%= $controller_ip %>
+api_paste_config = /usr/share/neutron/api-paste.ini
+tcp_keepidle = 600
+wsgi_default_pool_size = 100
+max_header_line = 16384
+wsgi_keep_alive = true
+client_socket_timeout = 900
+[agent]
+root_helper = sudo
+use_helper_for_ns_read = true
+report_interval = 30
+log_agent_heartbeats = false
+comment_iptables_rules = true
+debug_iptables_rules = false
+check_child_processes_action = respawn
+check_child_processes_interval = 60
+availability_zone = nova
+[cors]
+#allowed_origin = <None>
+#allow_credentials = true
+#expose_headers = X-Auth-Token,X-Subject-Token,X-Service-Token,X-OpenStack-Request-ID,OpenStack-Volume-microversion
+#max_age = 3600
+#allow_methods = GET,PUT,POST,DELETE,PATCH
+#allow_headers = X-Auth-Token,X-Identity-Status,X-Roles,X-Service-Catalog,X-User-Id,X-Tenant-Id,X-OpenStack-Request-ID
+[database]
+connection=mysql+pymysql://neutron:<%= $db_password_neutron %>@<%= $controller_ip %>/<%= $dbname_neutron %>
+mysql_sql_mode = TRADITIONAL
+mysql_enable_ndb = false
+connection_recycle_time = 3600
+min_pool_size = 1
+max_pool_size = 5
+max_retries = 10
+retry_interval = 10
+max_overflow = 5
+connection_debug = 0
+connection_trace = false
+use_db_reconnect = false
+db_retry_interval = 1
+db_inc_retry_interval = true
+db_max_retry_interval = 10
+db_max_retries = 20
+[keystone_authtoken]
+www_authenticate_uri = http://<%= $controller_ip %>:5000/v3
+auth_url = http://<%= $controller_ip %>:5000/v3
+memcached_servers = <%= $controller_ip %>:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = neutron
+password = <%= $user_password_neutron %>
+include_service_catalog = true
+service_token_roles = service
+service_token_roles_required = false
+[matchmaker_redis]
+[nova]
+endpoint_type = internal
+auth_url = http://<%= $controller_ip %>:5000/v3
+memcached_servers = <%= $controller_ip %>:11211
+auth_type = password
+project_domain_name = default
+user_domain_name = default
+project_name = service
+username = nova
+password = <%= $user_password_nova %>
+region_name = <%= $os_region_id %>
+#insecure = false
+[oslo_concurrency]
+lock_path = /var/lib/neutron/tmp
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+#enable_proxy_headers_parsing = false
+[oslo_policy]
+enforce_scope = false
+policy_file = /etc/neutron/policy.json
+policy_default_rule = default
+policy_dirs = /etc/neutron/policy.d
+#remote_content_type = application/x-www-form-urlencoded
+#remote_ssl_verify_server_crt = false
+#remote_ssl_ca_crt_file = <None>
+#remote_ssl_client_crt_file = <None>
+#remote_ssl_client_key_file = <None>
+[quotas]
+#default_quota = -1
+quota_network = 100
+quota_subnet = 100
+quota_port = 500
+quota_driver = neutron.db.quota.driver.DbQuotaDriver
+track_quota_usage = true
+quota_router = 10
+quota_floatingip = 50
+quota_security_group = 10
+quota_security_group_rule = 100
+[ssl]

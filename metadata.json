@@ -1,0 +1,15 @@
+{
+  "name": "mrbe4r-openstack",
+  "version": "0.1.1",
+  "author": "mrbe4r",
+  "summary": "Minimal module to install openstack",
+  "license": "MIT",
+  "source": "https://github.com/MrBE4R/mrbe4r-openstack.git",
+  "project_page": "https://github.com/MrBE4R/mrbe4r-openstack.git",
+  "issues_url": "https://github.com/MrBE4R/mrbe4r-openstack.git",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ],
+  "data_provider": null
+}
+

@@ -1,0 +1,23 @@
+[DEFAULT]
+#metadata_proxy_socket = $state_path/metadata_proxy
+#metadata_proxy_user =
+#metadata_proxy_group =
+#auth_ca_cert = <None>
+nova_metadata_host = <%= $node_admin_ip %>
+nova_metadata_port = 8775
+metadata_proxy_shared_secret = <%= $metadata_proxy_shared_secret %>
+nova_metadata_protocol = http
+metadata_workers = 4
+metadata_backlog = 4096
+debug = false
+publish_errors = true
+instance_format = "[instance: %(uuid)s] "
+instance_uuid_format = "[instance: %(uuid)s] "
+rate_limit_interval = 0
+rate_limit_burst = 0
+rate_limit_except_level = CRITICAL
+fatal_deprecations = false
+[agent]
+report_interval = 30
+[cache]
+memcache_servers = <%= $node_admin_ip %>:11211

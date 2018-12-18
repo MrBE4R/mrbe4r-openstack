@@ -1,0 +1,69 @@
+[DEFAULT]
+owner_is_tenant = true
+admin_role = admin
+allow_anonymous_access = false
+#public_endpoint = <None>
+allow_additional_image_properties = true
+show_image_direct_url = false
+image_size_cap = 1099511627776
+enable_v1_api = true
+enable_v2_api = true
+enable_v1_registry = true
+enable_v2_registry = true
+location_strategy = location_order
+bind_host = <%= $node_admin_ip %>
+bind_port = 9292
+workers = 4
+debug = false
+log_file = /var/log/glance/api.log
+[cors]
+[database]
+connection = mysql+pymysql://glance:<%= $db_password_glance %>@<%= $node_admin_ip %>/<%= $dbname_glance %>
+mysql_sql_mode = TRADITIONAL
+mysql_enable_ndb = false
+min_pool_size = 1
+max_pool_size = 5
+[glance_store]
+stores = file
+default_store = file
+cinder_catalog_info = volumev2::adminURL
+rootwrap_config = /etc/glance/rootwrap.conf
+filesystem_store_datadir = /var/lib/glance/images
+https_insecure = true
+[image_format]
+container_formats = bare,ovf,ova
+disk_formats = vhd,vhdx,vmdk,raw,qcow2,vdi,iso,ploop
+[keystone_authtoken]
+auth_uri = http://<%= $node_admin_ip %>:5000
+auth_url = http://<%= $node_admin_ip %>:5000
+memcached_servers = <%= $node_admin_ip %>:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = glance
+password = <%= $db_password_glance %>
+region_name = <%= $os_region_id %>
+[matchmaker_redis]
+[oslo_concurrency]
+[oslo_messaging_amqp]
+[oslo_messaging_kafka]
+[oslo_messaging_notifications]
+[oslo_messaging_rabbit]
+[oslo_messaging_zmq]
+[oslo_middleware]
+[oslo_policy]
+enforce_scope = false
+policy_file = /etc/glance/policy.json
+policy_default_rule = default
+policy_dirs = /etc/glance/policy.d
+[paste_deploy]
+flavor = keystone
+config_file = /usr/share/glance/glance-api-dist-paste.ini
+[profiler]
+[store_type_location_strategy]
+store_type_preference = file
+[task]
+[taskflow_executor]
+max_workers = 10
+conversion_format = qcow2

@@ -1,0 +1,40 @@
+[DEFAULT]
+interface_driver = linuxbridge
+#agent_mode = legacy
+metadata_port = 9697
+handle_internal_only_routers = true
+#ipv6_gateway =
+#prefix_delegation_driver = dibbler
+enable_metadata_proxy = true
+metadata_access_mark = 0x1
+external_ingress_mark = 0x2
+periodic_interval = 40
+api_workers = 4
+rpc_workers = 1
+rpc_state_report_workers = 1
+periodic_fuzzy_delay = 5
+#ha_confs_path = $state_path/ha_confs
+#ha_vrrp_auth_type = PASS
+#ha_vrrp_auth_password = <None>
+#ha_vrrp_advert_int = 2
+#ha_keepalived_state_change_server_threads = (1 + <num_of_cpus>) / 2
+#ha_vrrp_health_check_interval = 0
+#pd_confs = $state_path/pd
+#vendor_pen = 8888
+#ra_confs = $state_path/ra
+#min_rtr_adv_interval = 30
+#max_rtr_adv_interval = 100
+#debug = false
+publish_errors = true
+instance_format = "[instance: %(uuid)s] "
+instance_uuid_format = "[instance: %(uuid)s] "
+rate_limit_interval = 0
+rate_limit_burst = 0
+rate_limit_except_level = CRITICAL
+fatal_deprecations = false
+[agent]
+availability_zone = nova
+report_interval = 30
+log_agent_heartbeats = false
+extensions =
+[ovs]

@@ -1,0 +1,20 @@
+[default]
+log_file = /var/log/glance/api.log
+bind_host = <%= $node_admin_ip %>
+bind_port = 9191
+[database]
+connection = mysql+pymysql://glance:<%= $db_password_glance %>@<%= $node_admin_ip %>/<%= $dbname_glance %>
+[keystone_authtoken]
+auth_uri = http://<%= $node_admin_ip %>:5000
+auth_url = http://<%= $node_admin_ip %>:5000
+memcached_servers = <%= $node_admin_ip %>:11211
+auth_type = password
+project_domain_name = Default
+user_domain_name = Default
+project_name = service
+username = glance
+password = <%= $db_password_glance %>
+region_name = <%= $os_region_id %>
+[paste_deploy]
+flavor = keystone
+config_file = /usr/share/glance/glance-registry-dist-paste.ini
