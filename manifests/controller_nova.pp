@@ -252,28 +252,28 @@ class openstack::controller_nova inherits openstack {
  }
 
  exec { 'm1.tiny':
-  command => '/usr/bin/openstack ${os_cli_options} flavor create --ram 512 --disk 20 --vcpus 1 m1.tiny',
-  unless  => '/usr/bin/openstack ${os_cli_options} flavor show m1.tiny'
+  command => "/usr/bin/openstack ${os_cli_options} flavor create --ram 512 --disk 20 --vcpus 1 m1.tiny",
+  unless  => "/usr/bin/openstack ${os_cli_options} flavor show m1.tiny"
  }
  ->
  exec { 'm1.small':
-  command => '/usr/bin/openstack ${os_cli_options} flavor create --ram 2048 --disk 20 --vcpus 1 m1.small',
-  unless  => '/usr/bin/openstack ${os_cli_options} flavor show m1.small'
+  command => "/usr/bin/openstack ${os_cli_options} flavor create --ram 2048 --disk 20 --vcpus 1 m1.small",
+  unless  => "/usr/bin/openstack ${os_cli_options} flavor show m1.small"
  }
  ->
  exec { 'm1.medium':
-  command => '/usr/bin/openstack ${os_cli_options} flavor create --ram 4096 --disk 20 --vcpus 2 m1.medium',
-  unless  => '/usr/bin/openstack ${os_cli_options} flavor show m1.medium'
+  command => "/usr/bin/openstack ${os_cli_options} flavor create --ram 4096 --disk 20 --vcpus 2 m1.medium",
+  unless  => "/usr/bin/openstack ${os_cli_options} flavor show m1.medium"
  }
  ->
  exec { 'm1.large':
-  command => '/usr/bin/openstack ${os_cli_options} flavor create --ram 8192 --disk 20 --vcpus 4 m1.large',
-  unless  => '/usr/bin/openstack ${os_cli_options} flavor show m1.large'
+  command => "/usr/bin/openstack ${os_cli_options} flavor create --ram 8192 --disk 20 --vcpus 4 m1.large",
+  unless  => "/usr/bin/openstack ${os_cli_options} flavor show m1.large"
  }
  ->
  exec { 'm1.xlarge':
-  command => '/usr/bin/openstack ${os_cli_options} flavor create --ram 16384 --disk 20 --vcpus 8 m1.xlarge',
-  unless  => '/usr/bin/openstack ${os_cli_options} flavor show m1.xlarge'
+  command => "/usr/bin/openstack ${os_cli_options} flavor create --ram 16384 --disk 20 --vcpus 8 m1.xlarge",
+  unless  => "/usr/bin/openstack ${os_cli_options} flavor show m1.xlarge"
  }
 
  Package[$packages] -> Exec['nova_database_c'] -> Exec['nova_database_gl'] -> Exec['nova_database_ga'] -> Exec['nova_api_database_c'] -> Exec['nova_api_database_gl'] ->
