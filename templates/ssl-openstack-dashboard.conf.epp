@@ -68,8 +68,8 @@ Alias /dashboard/static /usr/share/openstack-dashboard/static
         </Location>
 
     <Location <%= $public_url_keystone %> >
-        ProxyPass http://<%= $node_admin_ip %>:35357/
-        ProxyPassReverse http://<%= $node_admin_ip %>:35357/
+        ProxyPass http://<%= $node_admin_ip %>:5000/
+        ProxyPassReverse http://<%= $node_admin_ip %>:5000/
         ProxyPreserveHost On
         AddOutputFilterByType SUBSTITUTE application/json
         AddOutputFilterByType SUBSTITUTE application/vnd.openstack.identity-v3+json

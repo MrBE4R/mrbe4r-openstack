@@ -110,7 +110,7 @@ images_type=default
 [mks]
 [neutron]
 url = http://<%= $node_admin_ip %>:9696
-auth_url = http://<%= $node_admin_ip %>:35357
+auth_url = http://<%= $node_admin_ip %>:5000
 auth_type = password
 project_domain_name = default
 user_domain_name = default
