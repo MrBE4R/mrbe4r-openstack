@@ -2,7 +2,7 @@ class openstack::compute_neutron inherits openstack {
  $packages = ['openstack-neutron-linuxbridge', 'ebtables', 'ipset']
  package { $packages:
   ensure  => $ensure_package,
-  require => Package['centos-release-openstack-queens'],
+  require => Package['centos-release-openstack-rocky'],
  }
  ->
  file { 'metadata_agent.ini':

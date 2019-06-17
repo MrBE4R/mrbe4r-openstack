@@ -3,7 +3,7 @@ class openstack::horizon inherits openstack {
   $packages = ['openstack-dashboard', 'mod_ssl']
   package { $packages:
    ensure  => $ensure_package,
-   require => Package['centos-release-openstack-queens'],
+   require => Package['centos-release-openstack-rocky'],
   }
   ->
   file { '/etc/openstack-dashboard/local_settings':
@@ -18,7 +18,8 @@ class openstack::horizon inherits openstack {
   ->
   exec { 'generate_tls':
    command =>
-    "/usr/bin/openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -keyout /opt/openstack.key -out /opt/openstack.crt -subj \"/C=FR/ST=Pays de la Loire/L=Nantes/O=YamIT/OU=IT/CN=${os_public_name}\"",
+    "/usr/bin/openssl req -new -newkey rsa:2048 -days 3650 -nodes -x509 -keyout /opt/openstack.key -out /opt/openstack.crt -subj \"/C=FR/ST=Pays de la Loire/L=Nantes/O=GenoBiRD/OU=IT BiRD/CN=${
+     os_public_name}\"",
    unless  => ["/usr/bin/ls /opt/openstack.crt", "/usr/bin/ls /opt/openstack.key"]
   }
   ->
@@ -55,7 +56,7 @@ class openstack::horizon inherits openstack {
   $packages = ['openstack-dashboard']
   package { $packages:
    ensure  => $ensure_package,
-   require => Package['centos-release-openstack-queens'],
+   require => Package['centos-release-openstack-rocky'],
   }
   ->
   file { '/etc/openstack-dashboard/local_settings':

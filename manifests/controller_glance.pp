@@ -2,7 +2,7 @@ class openstack::controller_glance inherits openstack {
  $packages = ['openstack-glance']
  package { $packages:
   ensure  => $ensure_package,
-  require => Package['centos-release-openstack-queens'],
+  require => Package['centos-release-openstack-rocky'],
  }
 
  exec { 'glance_database_c':
@@ -61,17 +61,17 @@ class openstack::controller_glance inherits openstack {
 
  exec { 'glance_endpoint_public':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} image public ${public_url_glance}",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service glance --interface public",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service glance --interface public | /usr/bin/grep glance",
  }
 
  exec { 'glance_endpoint_internal':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} image internal http://${node_admin_ip}:9292/",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service glance --interface internal",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service glance --interface internal | /usr/bin/grep glance",
  }
 
  exec { 'glance_endpoint_admin':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} image admin http://${node_admin_ip}:9292/",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service glance --interface admin",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service glance --interface admin | /usr/bin/grep glance",
  }
 
  file { '/etc/glance/glance-api.conf':

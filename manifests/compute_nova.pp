@@ -2,7 +2,7 @@ class openstack::compute_nova inherits openstack {
  $packages = ['openstack-nova-compute', 'libguestfs-tools']
  package { $packages:
   ensure  => $ensure_package,
-  require => Package['centos-release-openstack-queens'],
+  require => Package['centos-release-openstack-rocky'],
  }
 
 

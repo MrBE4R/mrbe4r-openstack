@@ -2,7 +2,7 @@ class openstack::controller_neutron inherits openstack {
  $packages = ['openstack-neutron', 'openstack-neutron-ml2', 'openstack-neutron-linuxbridge', 'ebtables']
  package { $packages:
   ensure  => $ensure_package,
-  require => Package['centos-release-openstack-queens'],
+  require => Package['centos-release-openstack-rocky'],
  }
  ->
  exec { 'neutron_database_c':
@@ -53,17 +53,17 @@ class openstack::controller_neutron inherits openstack {
  ->
  exec { 'neutron_api_endpoint_public':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} network public ${public_url_neutron}",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service neutron --interface public",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service neutron --interface public | /usr/bin/grep neutron",
  }
  ->
  exec { 'neutron_api_endpoint_internal':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} network internal http://${node_admin_ip}:9696",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service neutron --interface internal",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service neutron --interface internal | /usr/bin/grep neutron",
  }
  ->
  exec { 'neutron_api_endpoint_admin':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} network admin http://${node_admin_ip}:9696",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service neutron --interface admin",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service neutron --interface admin | /usr/bin/grep neutron",
  }
  ->
  exec { 'restart_nova_api_neutron':

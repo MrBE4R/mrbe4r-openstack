@@ -19,12 +19,12 @@
 # Authors
 # -------
 #
-# Jean-François GUILLAUME <mrbear@yam-it.net>
+# Jean-François GUILLAUME <jean-francois.guillaume@univ-nantes.fr>
 #
 # Copyright
 # ---------
 #
-# Copyright 2018 Jeff MrBear, unless otherwise noted.
+# Copyright 2018 BiRD, unless otherwise noted.
 #
 
 class openstack (
@@ -44,7 +44,7 @@ class openstack (
 
  $rabbit_password              = 'ChangeMe123',
 
- $os_public_name               = 'openstack.example.com',
+ $os_public_name               = 'os-bird.univ-nantes.fr',
 
  $dbname_keystone              = 'keystone',
  $db_password_keystone         = 'ChangeMe123',
@@ -98,5 +98,5 @@ class openstack (
  $user_password_demo           = 'demo',
  $user_password_admin          = 'admin',
 
- $os_cli_options               = "--os-domain-name Default --os-project-name admin --os-username admin --os-password ${user_password_admin} --os-auth-url http://${node_admin_ip}:35357/v3 --os-identity-api-version 3"
+ $os_cli_options               = "--os-domain-name Default --os-project-name admin --os-username admin --os-password ${user_password_admin} --os-auth-url http://${node_admin_ip}:5000/v3 --os-identity-api-version 3"
 ) {}

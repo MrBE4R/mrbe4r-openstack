@@ -2,7 +2,7 @@ class openstack::controller_cinder inherits openstack {
  $packages = ['openstack-cinder']
  package { $packages:
   ensure  => $ensure_package,
-  require => Package['centos-release-openstack-queens'],
+  require => Package['centos-release-openstack-rocky'],
  }
  ->
  exec { 'cinder_database_c':
@@ -58,32 +58,32 @@ class openstack::controller_cinder inherits openstack {
  ->
  exec { 'cinder_api_endpoint_public_v2':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} volumev2 public ${public_url_cinder}v2/%\(project_id\)s",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv2 --interface public",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv2 --interface public | /usr/bin/grep cinderv2",
  }
  ->
  exec { 'cinder_api_endpoint_internal_v2':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} volumev2 internal http://${node_admin_ip}:8776/v2/%\(project_id\)s",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv2 --interface internal",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv2 --interface internal | /usr/bin/grep cinderv2",
  }
  ->
  exec { 'cinder_api_endpoint_admin_v2':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} volumev2 admin http://${node_admin_ip}:8776/v2/%\(project_id\)s",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv2 --interface admin",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv2 --interface admin | /usr/bin/grep cinderv2",
  }
  ->
  exec { 'cinder_api_endpoint_public_v3':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} volumev3 public ${public_url_cinder}v3/%\(project_id\)s",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv3 --interface public",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv3 --interface public | /usr/bin/grep cinderv3",
  }
  ->
  exec { 'cinder_api_endpoint_internal_v3':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} volumev3 internal http://${node_admin_ip}:8776/v3/%\(project_id\)s",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv3 --interface internal",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv3 --interface internal | /usr/bin/grep cinderv3",
  }
  ->
  exec { 'cinder_api_endpoint_admin_v3':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} volumev3 admin http://${node_admin_ip}:8776/v3/%\(project_id\)s",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv3 --interface admin",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service cinderv3 --interface admin | /usr/bin/grep cinderv3",
  }
  ->
  file { '/etc/cinder/cinder.conf':

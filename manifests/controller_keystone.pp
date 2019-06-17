@@ -2,7 +2,7 @@ class openstack::controller_keystone inherits openstack {
  $packages = ['openstack-keystone', 'httpd', 'mod_wsgi']
  package { $packages:
   ensure  => $ensure_package,
-  require => Package['centos-release-openstack-queens'],
+  require => Package['centos-release-openstack-rocky'],
  }
 
  exec { 'keystone_database_c':
@@ -82,12 +82,12 @@ class openstack::controller_keystone inherits openstack {
 
  exec { 'create_service_project':
   command => "/usr/bin/openstack ${os_cli_options} project create --domain default --description 'Service Project' service",
-  unless  => "/usr/bin/openstack ${os_cli_options} project list | grep service"
+  unless  => "/usr/bin/openstack ${os_cli_options} project list | /usr/bin/grep service"
  }
 
  exec { 'create_role_user':
   command => "/usr/bin/openstack ${os_cli_options} role create user",
-  unless  => "/usr/bin/openstack ${os_cli_options} role list | grep user"
+  unless  => "/usr/bin/openstack ${os_cli_options} role list | /usr/bin/grep user"
  }
 
  Package[$packages] -> Exec['keystone_database_c'] -> Exec['keystone_database_gl'] -> Exec['keystone_database_ga'] ->

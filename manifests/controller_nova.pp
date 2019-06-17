@@ -2,7 +2,7 @@ class openstack::controller_nova inherits openstack {
  $packages = ['openstack-nova-api', 'openstack-nova-conductor', 'openstack-nova-console', 'openstack-nova-novncproxy', 'openstack-nova-scheduler', 'openstack-nova-placement-api', 'fping']
  package { $packages:
   ensure  => $ensure_package,
-  require => Package['centos-release-openstack-queens'],
+  require => Package['centos-release-openstack-rocky'],
  }
 
  exec { 'nova_database_c':
@@ -153,17 +153,17 @@ class openstack::controller_nova inherits openstack {
 
  exec { 'nova_api_endpoint_public':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} compute public ${public_url_nova}",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service nova --interface public",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service nova --interface public | /usr/bin/grep nova",
  }
 
  exec { 'nova_api_endpoint_internal':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} compute internal http://${node_admin_ip}:8774/v2.1",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service nova --interface internal",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service nova --interface internal | /usr/bin/grep nova",
  }
 
  exec { 'nova_api_endpoint_admin':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} compute admin http://${node_admin_ip}:8774/v2.1",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service nova --interface admin",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service nova --interface admin | /usr/bin/grep nova",
  }
 
  exec { 'nova_plcmt_user':
@@ -182,17 +182,17 @@ class openstack::controller_nova inherits openstack {
 
  exec { 'nova_plcmt_endpoint_public':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} placement public ${public_url_placement}",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service placement --interface public",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service placement --interface public | /usr/bin/grep placement",
  }
 
  exec { 'nova_plcmt_endpoint_internal':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} placement internal http://${node_admin_ip}:8778",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service placement --interface internal",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service placement --interface internal | /usr/bin/grep placement",
  }
 
  exec { 'nova_plcmt_endpoint_admin':
   command => "/usr/bin/openstack ${os_cli_options} endpoint create --region ${os_region_id} placement admin http://${node_admin_ip}:8778",
-  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service placement --interface admin",
+  unless  => "/usr/bin/openstack ${os_cli_options} endpoint list --service placement --interface admin | /usr/bin/grep placement",
  }
 
  file { '/etc/nova/nova.conf':

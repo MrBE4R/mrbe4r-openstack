@@ -18,7 +18,7 @@ class openstack::role::controller::install_packages inherits openstack {
  $packages = [ 'etcd', 'python2-PyMySQL', 'rabbitmq-server', 'memcached', 'python-memcached', 'mariadb', 'mariadb-server' ]
  package { $packages:
   ensure  => $ensure_package,
-  require => Package['centos-release-openstack-queens'],
+  require => Package['centos-release-openstack-rocky'],
  }
  ->
  file { '/etc/sysconfig/memcached':
