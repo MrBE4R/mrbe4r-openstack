@@ -187,3 +187,16 @@ policy_dirs = policy.d
 send_service_user_token = false
 [ssl]
 [vault]
+
+[delliscsi]
+volume_backend_name = delliscsi
+volume_driver = cinder.volume.drivers.dell_emc.sc.storagecenter_iscsi.SCISCSIDriver
+san_ip = <%= $san_ip %>
+san_login = <%= $san_login %>
+san_password = <%= $san_password %>
+iscsi_ip_address = 10.130.5.10
+dell_sc_ssn = 213762
+dell_sc_api_port = 3033
+dell_sc_server_folder = openstack
+dell_sc_volume_folder = openstackvol/cinder
+iscsi_port = 3260

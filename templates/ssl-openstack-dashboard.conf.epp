@@ -5,8 +5,8 @@
     RedirectMatch ^/$ /dashboard/
     RewriteCond %{HTTPS} !on
     RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
-    CustomLog /var/log/httpd/os_access_log combined
-    ErrorLog /var/log/httpd/os_error_log
+    CustomLog /var/log/httpd/os-bird_access_log combined
+    ErrorLog /var/log/httpd/os-bird_error_log
 </VirtualHost>
 
 WSGIDaemonProcess dashboard
@@ -117,6 +117,6 @@ Alias /dashboard/static /usr/share/openstack-dashboard/static
         Substitute "s|http://<%= $os_public_name %>|https://<%= $os_public_name %><%= $public_url_placement %>|inf"
     </Location>
 
-    CustomLog /var/log/httpd/os_access_log combined
-    ErrorLog /var/log/httpd/os_error_log
+    CustomLog /var/log/httpd/os-bird_access_log combined
+    ErrorLog /var/log/httpd/os-bird_error_log
 </VirtualHost>
